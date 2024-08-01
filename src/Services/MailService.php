@@ -4,7 +4,6 @@ namespace src\Services;
 
 use src\Contracts\MailClientInterface;
 use src\DB\Mailing;
-use src\DB\MailingRepository;
 use src\DB\SentRepository;
 use src\DB\UserRepository;
 
@@ -22,8 +21,9 @@ class MailService
                 continue;
             }
 
-            $this->client->sendTo($user);
-            $this->sentRepo->insert($mail, $user);
+            if ($this->client->sendTo($user)) {
+                $this->sentRepo->insert($mail, $user);
+            }
         }
 
         return true;

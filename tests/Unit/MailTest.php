@@ -53,9 +53,34 @@ class MailTest extends TestCase
         $mail->id = 234;
 
         $mailService->sendTo($userRepo, $mail);
+        $this->assertEqual(3, count($client->sent));
 
+        // All dupes, should not be resent
         $mailService = new MailService($client, $sentRepo);
         $mailService->sendTo($userRepo, $mail);
         $this->assertEqual(3, count($client->sent));
+
+        // New mailing
+        $mail = new Mailing();
+        $mail->id = 371;
+        $mailService = new MailService($client, $sentRepo);
+        $mailService->sendTo($userRepo, $mail);
+        $this->assertEqual(6, count($client->sent));
+    }
+
+    #[Test]
+    public function doNotSaveWhenClientError(): void
+    {
+        $sentRepo = new SentRepository($this->db->pdo);
+        $userRepo = $this->getUserRepo();
+
+        $client = new MailClient(error: true);
+        $mailService = new MailService($client, $sentRepo);
+
+        $mail = new Mailing();
+        $mail->id = 234;
+
+        $mailService->sendTo($userRepo, $mail);
+        $this->assertEqual(false, $sentRepo->has($mail, $userRepo->all()[0]));
     }
 }
