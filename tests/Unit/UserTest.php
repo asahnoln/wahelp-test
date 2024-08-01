@@ -4,11 +4,18 @@ namespace Unit;
 
 use Framework\Attr\Test;
 use Framework\TestCase;
-use src\DB\User;
 use src\DB\UserRepository;
+use PDO;
 
 class UserTest extends TestCase
 {
+    protected function prepareDb(): PDO
+    {
+        $pdo = new PDO('sqlite::memory:');
+        $pdo->query('CREATE TABLE users (id INTEGER PRIMARY KEY, name TEXT)');
+        return $pdo;
+    }
+
     protected function prepareFile(): mixed
     {
 
@@ -23,8 +30,14 @@ class UserTest extends TestCase
     #[Test]
     public function saves(): void
     {
-        $repo = new UserRepository();
+        $pdo = $this->prepareDb();
+        $repo = new UserRepository($pdo);
         $repo->saveFromCsvFile($this->prepareFile());
+
+        $this->assertEqual(
+            3,
+            $pdo->query('SELECT COUNT(*) FROM users')->fetchColumn()
+        );
 
         $res = $repo->all();
         $this->assertEqual(3, count($res));

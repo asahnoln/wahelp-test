@@ -2,19 +2,33 @@
 
 namespace src\DB;
 
+use PDO;
+
 class UserRepository
 {
     protected array $data = [];
 
-    public function saveFromCsvFile($file): void
+    public function __construct(protected PDO $pdo)
     {
-        while (($row = fgetcsv($file)) !== false) {
-            $this->data[] = new User($row[0], $row[1]);
-        }
     }
 
+    public function saveFromCsvFile(mixed $file): void
+    {
+        $data = [];
+        $sql = 'INSERT INTO users (id, name) VALUES ';
+        while (($row = fgetcsv($file)) !== false) {
+            $data[] = $row;
+        }
+        $sql .= str_repeat('(?, ?),', count($data) - 1) . '(?, ?)';
+
+        $this->pdo->prepare($sql)->execute(array_merge(...$data));
+    }
+
+    /**
+     * @return array<User>
+     */
     public function all(): array
     {
-        return $this->data;
+        return $this->pdo->query('SELECT * FROM users')->fetchAll(PDO::FETCH_CLASS, User::class);
     }
 }
