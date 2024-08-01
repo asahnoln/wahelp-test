@@ -1,8 +1,9 @@
 <?php
 
-namespace Framework;
+namespace Framework\Tests;
 
 use Framework\Attr\Test;
+use Framework\TestCase;
 
 class TestCaseTest extends TestCase
 {
