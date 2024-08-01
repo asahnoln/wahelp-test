@@ -15,12 +15,14 @@ abstract class TestCase
         foreach ($reflection->getMethods() as $method) {
             $attrs = $method->getAttributes(Test::class);
             if (count($attrs)) {
+                $this->beforeEach();
                 try {
                     $this->{$method->getName()}();
                     $this->log[$method->getName()] = 'DONE';
                 } catch (\Exception $e) {
                     $this->log[$method->getName()] = "\033[31mFAIL:\033[0m " . $e->getMessage();
                 }
+                $this->afterEach();
             }
         }
 
@@ -30,7 +32,7 @@ abstract class TestCase
     public function assertEqual(mixed $want, mixed $got): void
     {
         if ($want != $got) {
-            throw new \Exception("Expected '{$want}' to be equal to '{$got}'");
+            throw new \Exception("Expected '{$got}' to be equal to '{$want}'");
         }
     }
 
@@ -42,5 +44,15 @@ abstract class TestCase
         }
 
         return $result;
+    }
+
+    public function beforeEach(): void
+    {
+
+    }
+
+    public function afterEach(): void
+    {
+
     }
 }

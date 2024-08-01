@@ -29,7 +29,7 @@ class TestCaseTest extends TestCase
         try {
             $this->assertEqual(1, 2);
         } catch (\Exception $e) {
-            $this->assertEqual($e->getMessage(), "Expected '1' to be equal to '2'");
+            $this->assertEqual($e->getMessage(), "Expected '2' to be equal to '1'");
         }
     }
 
@@ -38,6 +38,16 @@ class TestCaseTest extends TestCase
     {
         $test = new LogTest();
         $test->run();
-        $this->assertEqual("success\tDONE\nfail\t\033[31mFAIL:\033[0m Expected '5' to be equal to '6'\n", $test->log());
+        $this->assertEqual("success\tDONE\nfail\t\033[31mFAIL:\033[0m Expected '6' to be equal to '5'\n", $test->log());
+    }
+
+    #[Test]
+    public function setsUp(): void
+    {
+        $test = new RunTestsTest();
+        $test->run();
+
+        $this->assertEqual(2, $test->beforeCalls);
+        $this->assertEqual(2, $test->afterCalls);
     }
 }
