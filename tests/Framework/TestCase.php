@@ -36,11 +36,11 @@ abstract class TestCase
 
     public function log(): string
     {
-        $result = [];
+        $result = '';
         foreach ($this->log as $method => $state) {
-            $result[] = "{$method}\t{$state}";
+            $result .= "{$method}\t{$state}\n";
         }
 
-        return implode("\n", $result);
+        return $result;
     }
 }

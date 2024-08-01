@@ -38,6 +38,6 @@ class TestCaseTest extends TestCase
     {
         $test = new LogTest();
         $test->run();
-        $this->assertEqual("success\tDONE\nfail\t\033[31mFAIL:\033[0m Expected '5' to be equal to '6'", $test->log());
+        $this->assertEqual("success\tDONE\nfail\t\033[31mFAIL:\033[0m Expected '5' to be equal to '6'\n", $test->log());
     }
 }
