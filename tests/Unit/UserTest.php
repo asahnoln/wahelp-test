@@ -4,21 +4,14 @@ namespace Unit;
 
 use Framework\Attr\Test;
 use Framework\TestCase;
+use Helpers\Db;
 use src\DB\UserRepository;
 use PDO;
 
 class UserTest extends TestCase
 {
-    protected function prepareDb(): PDO
+    public function makeCsvWithUsers(): mixed
     {
-        $pdo = new PDO('sqlite::memory:');
-        $pdo->query('CREATE TABLE users (id INTEGER PRIMARY KEY, name TEXT)');
-        return $pdo;
-    }
-
-    protected function prepareFile(): mixed
-    {
-
         $file = tmpfile();
         foreach ([[100, 'Lion'], [200, 'Tiger'], [300, 'Leopard']] as $row) {
             fputcsv($file, $row);
@@ -30,13 +23,15 @@ class UserTest extends TestCase
     #[Test]
     public function saves(): void
     {
-        $pdo = $this->prepareDb();
-        $repo = new UserRepository($pdo);
-        $repo->saveFromCsvFile($this->prepareFile());
+        $db = new Db();
+        $db->createUsers();
+
+        $repo = new UserRepository($db->pdo);
+        $repo->saveFromCsvFile($this->makeCsvWithUsers());
 
         $this->assertEqual(
             3,
-            $pdo->query('SELECT COUNT(*) FROM users')->fetchColumn()
+            $db->pdo->query('SELECT COUNT(*) FROM users')->fetchColumn()
         );
 
         $res = $repo->all();

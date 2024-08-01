@@ -1,6 +1,7 @@
 <?php
 
 use Framework\Tests\TestCaseTest;
+use Unit\MailTest;
 use Unit\UserTest;
 
 spl_autoload_register(function ($class) {
@@ -14,3 +15,4 @@ spl_autoload_register(function ($class) {
 
 echo (new TestCaseTest())->run()->log();
 echo (new UserTest())->run()->log();
+echo (new MailTest())->run()->log();
