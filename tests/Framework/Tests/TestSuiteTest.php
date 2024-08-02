@@ -3,15 +3,20 @@
 namespace Framework\Tests;
 
 use Framework\Attr\Test;
+use Framework\TestCase;
+use Framework\TestSuite;
 
 class TestSuiteTest extends TestCase
 {
     #[Test]
-    public function runsMultiple()
+    public function logs()
     {
         $suite = new TestSuite();
-        $suite->add(new TestCaseTest(), new RunTestsTest());
-        $suite->run();
-        $this->assertEqual(2, $suite->casesDone);
+        $t1 = new RunTestsTest();
+        $t2 = new LogTest();
+        $suite->add($t1, $t2)->run();
+
+        $this->assertEqual(true, strpos($suite->log(), 'RunTestsTest') !== false);
+        $this->assertEqual(true, strpos($suite->log(), 'LogTest') !== false);
     }
 }

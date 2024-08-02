@@ -1,6 +1,8 @@
 <?php
 
+use Framework\TestSuite;
 use Framework\Tests\TestCaseTest;
+use Framework\Tests\TestSuiteTest;
 use Unit\MailTest;
 use Unit\UserTest;
 
@@ -13,6 +15,11 @@ spl_autoload_register(function ($class) {
     }
 });
 
-echo (new TestCaseTest())->run()->log();
-echo (new UserTest())->run()->log();
-echo (new MailTest())->run()->log();
+echo (new TestSuite())->add(
+    // Project tests
+    new UserTest(),
+    // Test framework tests
+    new TestCaseTest(),
+    new MailTest(),
+    new TestSuiteTest(),
+)->run()->log();
