@@ -16,12 +16,12 @@ class UserRepository extends BaseRepository
         $this->pdo->prepare($sql)->execute(array_merge(...$data));
     }
 
-    public function model(): string
+    public static function model(): string
     {
         return User::class;
     }
 
-    public function table(): string
+    public static function table(): string
     {
         return 'users';
     }

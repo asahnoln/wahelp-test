@@ -1,5 +1,6 @@
 <?php
 
+use Unit\ConsoleTest;
 use Framework\TestSuite;
 use Framework\Tests\TestCaseTest;
 use Framework\Tests\TestSuiteTest;
@@ -18,8 +19,9 @@ spl_autoload_register(function ($class) {
 echo (new TestSuite())->add(
     // Project tests
     new UserTest(),
+    new MailTest(),
+    new ConsoleTest(),
     // Test framework tests
     new TestCaseTest(),
-    new MailTest(),
     new TestSuiteTest(),
 )->run()->log();

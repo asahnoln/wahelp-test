@@ -18,12 +18,12 @@ class SentRepository extends BaseRepository
         return $q->execute([$mail->id, $user->id]);
     }
 
-    public function model(): string
+    public static function model(): string
     {
         return Sent::class;
     }
 
-    public function table(): string
+    public static function table(): string
     {
         return 'sent_mailings';
     }

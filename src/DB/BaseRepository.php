@@ -10,8 +10,8 @@ abstract class BaseRepository
     {
     }
 
-    abstract public function model(): string;
-    abstract public function table(): string;
+    abstract public static function model(): string;
+    abstract public static function table(): string;
 
     /**
      * @return array<stdClass>
