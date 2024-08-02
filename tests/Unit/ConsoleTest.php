@@ -62,11 +62,13 @@ class ConsoleTest extends TestCase
             sentRepo: new SentRepository($this->db->pdo),
             mailService: new MailService(new MailClient(), new SentRepository($this->db->pdo)),
         );
-        $c->run(['script.php', 'addUsersFrom', $csv = $this->getCsvFileWithUsers()]);
+
+        $csv = $this->getCsvFileWithUsers();
+        $resp = $c->run(['script.php', 'addUsersFrom', $csv]);
+        unlink($csv);
 
         $this->assertEqual(4, count($ur->all()));
-
-        unlink($csv);
+        $this->assertEqual('Added users.', $resp);
     }
 
     #[Test]
@@ -88,8 +90,9 @@ class ConsoleTest extends TestCase
             sentRepo: $sentRepo,
             mailService: $ms,
         );
-        $c->run(['script.php', 'sendMails']);
+        $resp = $c->run(['script.php', 'sendMails']);
 
         $this->assertEqual(6, count($mc->sent));
+        $this->assertEqual('Sent!', $resp);
     }
 }

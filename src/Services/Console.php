@@ -3,7 +3,6 @@
 namespace src\Services;
 
 use src\DB\MailRepository;
-use src\DB\Mailing;
 use src\DB\SentRepository;
 use src\DB\UserRepository;
 
@@ -17,16 +16,18 @@ class Console
     ) {
     }
 
-    public function run(array $argv): void
+    public function run(array $argv): string
     {
         if ($argv[1] == 'sendMails') {
             foreach ($this->mailRepo->all() as $m) {
                 $this->mailService->sendTo($this->userRepo, $m);
             }
-            return;
+            return 'Sent!';
         }
 
         $file = fopen($argv[2], 'r');
         $this->userRepo->saveFromCsvFile($file);
+
+        return 'Added users.';
     }
 }
