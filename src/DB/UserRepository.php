@@ -9,7 +9,7 @@ class UserRepository extends BaseRepository
         $data = [];
         $sql = "INSERT INTO {$this->table()} (id, name) VALUES ";
         while (($row = fgetcsv($file)) !== false) {
-            $data[] = $row;
+            $data[] = array_slice($row, 0, 2);
         }
         $sql .= str_repeat('(?, ?),', count($data) - 1) . '(?, ?)';
 

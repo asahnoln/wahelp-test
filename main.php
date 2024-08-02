@@ -5,17 +5,21 @@ use src\DB\MailRepository;
 use src\DB\SentRepository;
 use src\DB\UserRepository;
 use src\Services\Console;
+use src\Services\Env;
 use src\Services\MailService;
 
 spl_autoload_register(function ($class) {
     $classPath = str_replace('\\', '/', $class) . '.php';
-    $file = __DIR__ . '/' . $classPath;
+    list($app) = explode('/', $classPath);
+    $file = __DIR__ . '/' . ($app != 'src' ? 'tests/' : '') . $classPath;
     if (is_file($file)) {
         require_once $file;
     }
 });
 
-$pdo = new PDO();
+Env::parse(__DIR__ . '/.env');
+
+$pdo = new PDO(getenv('DSN'));
 
 $userRepo = new UserRepository($pdo);
 $mailRepo = new MailRepository($pdo);

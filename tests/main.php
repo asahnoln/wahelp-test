@@ -4,6 +4,7 @@ use Unit\ConsoleTest;
 use Framework\TestSuite;
 use Framework\Tests\TestCaseTest;
 use Framework\Tests\TestSuiteTest;
+use Unit\EnvTest;
 use Unit\MailTest;
 use Unit\UserTest;
 
@@ -21,6 +22,7 @@ echo (new TestSuite())->add(
     new UserTest(),
     new MailTest(),
     new ConsoleTest(),
+    new EnvTest(),
     // Test framework tests
     new TestCaseTest(),
     new TestSuiteTest(),
