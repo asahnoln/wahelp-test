@@ -1,5 +1,7 @@
 <?php
 
+require_once __DIR__ . '/autoload.php';
+
 use Helpers\Stubs\MailClient;
 use src\DB\MailRepository;
 use src\DB\SentRepository;
@@ -7,15 +9,6 @@ use src\DB\UserRepository;
 use src\Services\Console;
 use src\Services\Env;
 use src\Services\MailService;
-
-spl_autoload_register(function ($class) {
-    $classPath = str_replace('\\', '/', $class) . '.php';
-    list($app) = explode('/', $classPath);
-    $file = __DIR__ . '/' . ($app != 'src' ? 'tests/' : '') . $classPath;
-    if (is_file($file)) {
-        require_once $file;
-    }
-});
 
 Env::parse(__DIR__ . '/.env');
 

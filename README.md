@@ -28,7 +28,6 @@ php tests/main.php
 
 ## Improvements to make
 
-- [] General autoloader for src and tests
 - [] Dependency container for Console service
 - [] Massive inserts in repositories
 - [] Check for file existence when adding users
