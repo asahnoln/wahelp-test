@@ -6,15 +6,15 @@ use PDO;
 
 abstract class BaseRepository
 {
+    abstract public static function model(): string;
+    abstract public static function table(): string;
+
     public function __construct(protected PDO $pdo)
     {
     }
 
-    abstract public static function model(): string;
-    abstract public static function table(): string;
-
     /**
-     * @return array<stdClass>
+     * @return array
      */
     public function all(): array
     {

@@ -2,6 +2,9 @@
 
 namespace src\DB;
 
+/**
+ * @method array<Mailing> all()
+ */
 class MailRepository extends BaseRepository
 {
     public static function model(): string

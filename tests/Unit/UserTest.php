@@ -4,22 +4,12 @@ namespace Unit;
 
 use Framework\Attr\Test;
 use Framework\TestCase;
+use Helpers\Csv;
 use Helpers\Db;
 use src\DB\UserRepository;
-use PDO;
 
 class UserTest extends TestCase
 {
-    public function makeCsvWithUsers(): mixed
-    {
-        $file = tmpfile();
-        foreach ([[100, 'Lion', '' ], [200, 'Tiger'], [300, 'Leopard', '', '']] as $row) {
-            fputcsv($file, $row);
-        }
-        rewind($file);
-        return $file;
-    }
-
     #[Test]
     public function saves(): void
     {
@@ -27,7 +17,7 @@ class UserTest extends TestCase
         $db->createUsers();
 
         $repo = new UserRepository($db->pdo);
-        $repo->saveFromCsvFile($this->makeCsvWithUsers());
+        $repo->saveFromCsvFile(Csv::makeCsvWithUsers());
 
         $this->assertEqual(
             3,

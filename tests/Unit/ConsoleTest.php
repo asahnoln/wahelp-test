@@ -4,6 +4,7 @@ namespace Unit;
 
 use Framework\Attr\Test;
 use Framework\TestCase;
+use Helpers\Csv;
 use Helpers\Db;
 use Helpers\Stubs\MailClient;
 use src\DB\MailRepository;
@@ -15,6 +16,7 @@ use src\Services\MailService;
 class ConsoleTest extends TestCase
 {
     private Db $db;
+
     public function __construct()
     {
         $this->db = new Db();
@@ -34,9 +36,8 @@ class ConsoleTest extends TestCase
 
     public function getUserRepo(): UserRepository
     {
-        $ut = new UserTest();
         $repo = new UserRepository($this->db->pdo);
-        $repo->saveFromCsvFile($ut->makeCsvWithUsers());
+        $repo->saveFromCsvFile(Csv::makeCsvWithUsers());
         return $repo;
     }
 
@@ -54,10 +55,10 @@ class ConsoleTest extends TestCase
     #[Test]
     public function createsData(): void
     {
-        $ur = new UserRepository($this->db->pdo);
+        $userRepo = new UserRepository($this->db->pdo);
 
         $c = new Console(
-            userRepo: $ur,
+            userRepo: $userRepo,
             mailRepo: new MailRepository($this->db->pdo),
             sentRepo: new SentRepository($this->db->pdo),
             mailService: new MailService(new MailClient(), new SentRepository($this->db->pdo)),
@@ -67,7 +68,7 @@ class ConsoleTest extends TestCase
         $resp = $c->run(['script.php', 'addUsersFrom', $csv]);
         unlink($csv);
 
-        $this->assertEqual(4, count($ur->all()));
+        $this->assertEqual(4, count($userRepo->all()));
         $this->assertEqual('Added users.', $resp);
     }
 
