@@ -2,10 +2,22 @@
 
 ## How to run
 
+### Prepare DB
+
+Sqlite example:
+
+```sql
+CREATE TABLE users (id INTEGER PRIMARY KEY, name TEXT);
+CREATE TABLE mailings (id INTEGER PRIMARY KEY, name TEXT);
+CREATE TABLE sent_mailings (id INTEGER PRIMARY KEY, mailing_id INTEGER, user_id INTEGER);
+```
+
 ### Add .env
 
+Sqlite example:
+
 ```fish
-echo 'DSN=yourDsnForPdo' > .env
+echo 'DSN=sqlite:testing.sq3' > .env
 ```
 
 ### Add users to DB
@@ -31,7 +43,7 @@ php tests/main.php
 - [] Dependency container for Console service
 - [] Massive inserts in repositories
 - [] Check for file existence when adding users
-- [] Skip duplicated users
+- [] Skip duplicated users when adding them to DB
 - [] Env throw error if given file does not exist
-- [] Removed dupes from test
 - [] Check commands in Console
+- [] Transactions for DB work, race conditions
