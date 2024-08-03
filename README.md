@@ -19,7 +19,7 @@ CREATE TABLE sent_mailings (id INTEGER PRIMARY KEY, mailing_id INTEGER, user_id 
 Sqlite example:
 
 ```fish
-echo 'DSN=sqlite:testing.sq3' > .env
+echo 'DSN=sqlite:db.sq3' > .env
 ```
 
 ### Add users to DB
