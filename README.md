@@ -1,5 +1,7 @@
 # Test task for wahelp
 
+Only happy path is implemented currently. Unhappy path is implemented partially.
+
 ## How to run
 
 ### Prepare DB
@@ -40,10 +42,10 @@ php tests/main.php
 
 ## Improvements to make
 
-- [] Dependency container for Console service
 - [] Massive inserts in repositories
+- [] Dependency container for Console service
 - [] Check for file existence when adding users
 - [] Skip duplicated users when adding them to DB
 - [] Env throw error if given file does not exist
 - [] Check commands in Console
-- [] Transactions for DB work, race conditions
+- [] Transactions for repositories, race conditions
