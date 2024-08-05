@@ -18,6 +18,6 @@ abstract class BaseRepository
      */
     public function all(): array
     {
-        return $this->pdo->query('SELECT * FROM ' . $this->table())->fetchAll(PDO::FETCH_CLASS, $this->model());
+        return $this->pdo->query('SELECT * FROM ' . static::table())->fetchAll(PDO::FETCH_CLASS, static::model());
     }
 }

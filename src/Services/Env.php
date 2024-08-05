@@ -10,5 +10,6 @@ class Env
         while ($line = fgets($file)) {
             putenv(trim($line));
         }
+        fclose($file);
     }
 }

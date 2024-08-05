@@ -27,6 +27,7 @@ class Console
 
         $file = fopen($argv[2], 'r');
         $this->userRepo->saveFromCsvFile($file);
+        fclose($file);
 
         return 'Added users.';
     }
